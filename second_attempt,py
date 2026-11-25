@@ -1,0 +1,51 @@
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
+from kivy.uix.button import Button
+
+class MyBox(BoxLayout):
+    def __init__(self, **kwargs):
+        super(MyBox, self).__init__(**kwargs)
+        self.orientation = 'vertical'
+        self.add_widget(Label(text="Kalkulator Kira Air. Pilih dan isi salah satu. Kemudian tekan butang bewarna untuk mengira.", font_size=20))
+
+        self.add_widget(Label(text="oz: ", font_size=30))
+        self.oz = TextInput(multiline=False)
+        self.add_widget(self.oz)
+        self.oz_button = Button(text="oz kepada ml", font_size=30, background_color=(0.5, 0.5, 0.1, 1))
+        self.oz_button.bind(on_press=self.oz_choose)
+        self.add_widget(self.oz_button)
+
+
+
+        self.add_widget(Label(text="ml: ", font_size=30))
+        self.ml = TextInput(multiline=False)
+        self.add_widget(self.ml)
+        self.ml_button = Button(text="ml kepada oz", font_size=30, background_color=(0.8, 0.4, 0, 1))
+        self.ml_button.bind(on_press=self.ml_choose)
+        self.add_widget(self.ml_button)
+
+    def oz_choose(self, instance):
+        try:
+        
+            oz = float(self.oz.text)
+            ml = oz * 29.5735
+            self.add_widget(Label(text=f"oz dalam ml: {ml:.2f}"))
+        except ValueError:
+            self.add_widget(Label(text="[Ralat!] Masukkan nombor yang sah."))
+
+    def ml_choose(self, instance):
+        try:
+            ml = float(self.ml.text)
+            oz = ml / 29.5735
+            self.add_widget(Label(text=f"ml dalam oz: {oz:.2f}"))
+        except ValueError:
+            self.add_widget(Label(text="[Ralat!] Masukkan nombor yang sah."))
+
+class WaterCalculator(App):
+    def build(self):
+        return MyBox()
+ 
+if __name__ == '__main__':
+    WaterCalculator().run()
